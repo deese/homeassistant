@@ -18,7 +18,7 @@ blueprint:
           entity:
             domain: light
     delay_time:
-      name: Number of minutes 
+      name: Number of minutes
       description: Number of minutes, afterwhich the lights will turn off.
       selector:
         number:
@@ -41,8 +41,6 @@ condition:
   - condition: state
     entity_id: !input target_light
     state: "on"
-    
-condition: []
 
 action:
   - service: light.turn_off
