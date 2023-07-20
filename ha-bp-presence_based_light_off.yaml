@@ -1,5 +1,5 @@
 blueprint:
-  name: Turn Light OFF
+  name: Presence based turn light OFF
   description: Turn light off when occupancy is not detected for an specific period of time.
   domain: automation
   input:
