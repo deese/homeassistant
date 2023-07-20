@@ -14,7 +14,6 @@ blueprint:
       name: Target Light
       description: Choose the lights that you want to control.
       selector:
-        target:
           entity:
             domain: light
     delay_time:
@@ -25,10 +24,7 @@ blueprint:
           min: 0
           max: 10
           step: 1
-          unit_of_measurement: "minutes"
-variables:
-  target_light: !input target_light
-  
+          unit_of_measurement: "minutes" 
 trigger:
   - platform: state
     entity_id: !input motion_sensor
@@ -47,6 +43,5 @@ condition:
 action:
   - service: light.turn_off
     data: {}
-    target:
-      entity_id: !input target_light
+    entity_id: !input target_light
 mode: restart
