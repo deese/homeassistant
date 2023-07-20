@@ -26,7 +26,9 @@ blueprint:
           max: 10
           step: 1
           unit_of_measurement: "minutes"
-
+variables:
+  target_light: !input target_light
+  
 trigger:
   - platform: state
     entity_id: !input motion_sensor
@@ -39,7 +41,7 @@ trigger:
 
 condition:
   - condition: state
-    target: !input target_light
+    entity_id: !input target_light
     state: "on"
 
 action:
