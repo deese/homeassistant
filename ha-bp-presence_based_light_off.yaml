@@ -39,7 +39,7 @@ trigger:
 
 condition:
   - condition: state
-    entity_id: !input target_light
+    target: !input target_light
     state: "on"
 
 action:
