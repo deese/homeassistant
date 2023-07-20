@@ -1,0 +1,65 @@
+blueprint:
+  name: Presence sensor turn light ON and OFF
+  description: Turn light on when occupancy is detected and off when occupancy is not detected.
+  domain: automation
+  input:
+    occupancy_sensor:
+      name: Occupancy Sensor
+      description: Choose the occupancy sensor to control the lights.
+      selector:
+        entity:
+          domain: binary_sensor
+          device_class: occupancy
+    target_light:
+      name: Target Light
+      description: Choose the lights that you want to control.
+      selector:
+        target:
+          entity:
+            domain: light
+    delay_time:
+      name: Number of mintes 
+      description: Number of minutes, afterwhich the lights will turn off.
+      selector:
+        number:
+          min: 0
+          max: 10
+          step: 1
+          unit_of_measurement: "minutes"
+
+trigger:
+  - platform: state
+    entity_id: !input occupancy_sensor
+
+condition: []
+
+action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: !input occupancy_sensor
+        state: 'off'
+        for:
+          hours: 0
+          minutes: 0
+          seconds: 0
+      sequence:
+      - delay:
+          hours: 0
+          minutes: !input delay_time
+          seconds: 0
+          milliseconds: 0
+      - service: light.turn_off
+        data:
+          transition: 10
+        target: !input target_light
+    - conditions:
+      - condition: state
+        entity_id: !input occupancy_sensor
+        state: 'on'
+      sequence:
+      - service: light.turn_on
+        data: {}
+        target: !input target_light
+    default: []
+mode: restart
