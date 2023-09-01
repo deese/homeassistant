@@ -36,7 +36,7 @@ blueprint:
       description:  Send notification when executing the protection using this entity
       selector:
         entity:
-          domain: notify
+          domain:
     notification_message:
       name: (OPTIONAL) Notification message
       description: Template for the notification
