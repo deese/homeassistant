@@ -30,13 +30,12 @@ blueprint:
           min: 0
           max: 100
           step: 1
-          unit_of_measurement: "percentage" 
+          unit_of_measurement: "%" 
     notification_entity:
       name: (OPTIONAL) Notification entity
       description:  Send notification when executing the protection using this entity
       selector:
-        entity:
-          domain:
+        object:
     notification_message:
       name: (OPTIONAL) Notification message
       description: Template for the notification
@@ -56,45 +55,45 @@ variables:
   cover_position: !input cover_position
   notification_message: !input notification_message
   notification_entity: !input notification_entity
-  
 trigger:
-  - platform: state
-    entity_id:
-      - !input weather_sensor
-    to:
-      - hail
-      - lightning
-      - lightning-rainy
-      - pouring
-      - rainy
-      - snowy
-      - snowy-rainy
+- platform: state
+  entity_id:
+  - !input weather_sensor
+  to:
+  - hail
+  - lightning
+  - lightning-rainy
+  - pouring
+  - rainy
+  - snowy
+  - snowy-rainy
 condition:
-  - condition: and
-    conditions:
-      - condition: template
-        alias: 'Check for blocker entity'
-        value_template: "{{ (disable_protection == none) or (states(disable_protection) == 'off') }}"
-      - condition: state
-        entity_id: !input window_sensor
-        state: Open
-      - condition: numeric_state
-        entity_id: !input target_cover
-        attribute: current_position
-        above: !input cover_position
-
+- condition: and
+  conditions:
+  - condition: template
+    alias: Check for blocker entity
+    value_template: '{{ (disable_protection == none) or (states(disable_protection)
+      == ''off'') }}'
+  - condition: state
+    entity_id: !input window_sensor
+    state: Open
+  - condition: numeric_state
+    entity_id: !input target_cover
+    attribute: current_position
+    above: !input cover_position
 action:
-  - service: cover.set_cover_position
-    data:
-      position: !input cover_position
-    target:
-      entity_id: !input target_cover
-  - choose:
-      - conditions:
-          - condition: template
-            value_template: "{{ notification_message != none and notification_entity != none) }}"
-        sequence:
-          - service: !input notification_entity
-            data:
-              message: !input notification_message
+- service: cover.set_cover_position
+  data:
+    position: !input cover_position
+  target:
+    entity_id: !input target_cover
+- choose:
+  - conditions:
+    - condition: template
+      value_template: '{{ notification_message != none and notification_entity !=
+        none }}'
+    sequence:
+    - service: !input notification_entity
+      data:
+        message: !input notification_message
 mode: restart
