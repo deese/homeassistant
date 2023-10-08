@@ -53,20 +53,6 @@ blueprint:
       default: []
       selector:
         action: {}
-
-#    hold_button_delay:
-#      name: Right Hold button delay
-#      description: Max delay that the automation waits for a right_hold message.
-#        this can be required to prevent the right_press action to be executed before the right_hold message arrives.
-#      default: 800
-#      selector:
-#        number:
-#          min: 100.0
-#          max: 1500.0
-#          unit_of_measurement: milliseconds
-#          mode: box
-#          step: 10.0
-
 mode: single
 max_exceeded: silent
 trigger:
@@ -82,28 +68,23 @@ trigger:
 action:
   - choose:
     - conditions:
-      - condition: state
-        entity_id: !input switch
-        state: left_press
+      - condition: template
+        value_template: "{{ trigger.to_state.state == \"left_press\" }}"
       sequence: !input press_left
     - conditions:
-      - condition: state
-        entity_id: !input switch
-        state: left_hold
+      - condition: template
+        value_template: "{{ trigger.to_state.state == \"left_hold\" }}"
       sequence: !input hold_left
     - conditions:
-      - condition: state
-        entity_id: !input switch
-        state: left_hold_release
+      - condition: template
+        value_template: "{{ trigger.to_state.state == \"left_hold_release\" }}"
       sequence: !input release_left
     - conditions:
-      - condition: state
-        entity_id: !input switch
-        state: right_press
+      - condition: template
+        value_template: "{{ trigger.to_state.state == \"right_hold\" }}"
       sequence: !input press_right
     - conditions:
-      - condition: state
-        entity_id: !input switch
-        state: right_hold_release
+      - condition: template
+        value_template: "{{ trigger.to_state.state == \"right_hold_release\" }}"
       sequence: !input release_right
 
