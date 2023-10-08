@@ -81,7 +81,7 @@ trigger:
       - "right_hold_release"
 action:
 - variables:
-    command: "{{ trigger.to_state.action }}"
+    command: "{{ trigger.to_state.state }}"
 - wait_for_trigger:
   - platform: state
     entity_id: !input switch
