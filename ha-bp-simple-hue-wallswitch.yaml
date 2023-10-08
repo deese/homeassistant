@@ -1,6 +1,6 @@
 blueprint:
   name: Simple Hue Wall Switch Module
-  description: "Blueprint for Home Assistant for the Hue Wall Switch using zigbee2mqtt. This doesn't support right button hold."
+  description: "Blueprint for Home Assistant for the Hue Wall Switch using zigbee2mqtt. This doesnt support right button hold."
   domain: automation
   
   input:
