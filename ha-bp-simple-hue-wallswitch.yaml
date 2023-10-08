@@ -90,20 +90,20 @@ action:
       - condition: state
         entity_id: !input switch
         state: left_hold
-      sequence: !input left_hold
+      sequence: !input hold_left
     - conditions:
       - condition: state
         entity_id: !input switch
         state: left_hold_release
-      sequence: !input left_hold_release
+      sequence: !input release_left
     - conditions:
       - condition: state
         entity_id: !input switch
         state: right_press
-      sequence: !input right_press
+      sequence: !input press_right
     - conditions:
       - condition: state
         entity_id: !input switch
         state: right_hold_release
-      sequence: !input right_hold_release
+      sequence: !input release_right
 
