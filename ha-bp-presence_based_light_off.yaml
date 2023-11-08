@@ -1,6 +1,7 @@
 blueprint:
   name: Presence based turn light OFF
-  description: Turn light off when occupancy is not detected for an specific period of time.
+  description: Turn light off when occupancy is not detected for an specific period
+    of time.
   domain: automation
   input:
     motion_sensor:
@@ -8,40 +9,60 @@ blueprint:
       description: Choose the occupancy sensor to control the lights.
       selector:
         entity:
-          domain: binary_sensor
-          device_class: occupancy
+          domain:
+          - binary_sensor
+          device_class:
+          - occupancy
+          multiple: false
     target_light:
       name: Target Light
       description: Choose the lights that you want to control.
       selector:
-          entity:
-            domain: light
+        entity:
+          domain:
+          - light
+          multiple: false
     delay_time:
       name: Number of minutes
       description: Number of minutes, afterwhich the lights will turn off.
       selector:
         number:
-          min: 0
-          max: 10
-          step: 1
-          unit_of_measurement: "minutes" 
+          min: 0.0
+          max: 10.0
+          step: 1.0
+          unit_of_measurement: minutes
+          mode: slider
+    disable_switch:
+      name: (OPTIONAL) Disable switch
+      description: This input_boolean will be used to decide if the automation should
+        be enabled or not.
+      default:
+      selector:
+        entity:
+          domain: input_boolean
+  source_url: https://github.com/deese/homeassistant/blob/main/ha-bp-presence_based_light_off.yaml
+variables:
+    disable_switch: !input disable_switch
+    motion_sensor: !input motion_sensor
 trigger:
-  - platform: state
-    entity_id: !input motion_sensor
-    from: "on"
-    to: "off"
-    for:
-      hours: 0
-      minutes: !input delay_time
-      seconds: 0
-
+- platform: state
+  entity_id: !input motion_sensor
+  from: 'on'
+  to: 'off'
+  for:
+    hours: 0
+    minutes: !input delay_time
+    seconds: 0
 condition:
-  - condition: state
-    entity_id: !input target_light
-    state: "on"
-
+- condition: template
+  value_template: >-
+      {{  disable_switch != none and
+      states(disable_switch) == 'on' }}
+- condition: state
+  entity_id: !input target_light
+  state: 'on'
 action:
-  - service: light.turn_off
-    data: {}
-    entity_id: !input target_light
+- service: light.turn_off
+  data: {}
+  entity_id: !input target_light
 mode: restart
