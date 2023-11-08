@@ -56,7 +56,7 @@ trigger:
 condition:
 - condition: template
   value_template: >-
-      {{  disable_switch != none and
+      {{  disable_switch == none or
       states(disable_switch) == 'on' }}
 - condition: state
   entity_id: !input target_light
