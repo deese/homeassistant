@@ -26,13 +26,26 @@ blueprint:
           max: 10
           step: 1
           unit_of_measurement: "minutes"
-
+    disable_switch:
+      name: (OPTIONAL) Disable switch
+      description: This input_boolean will be used to decide if the automation should
+        be enabled or not.
+      default:
+      selector:
+        entity:
+          domain: input_boolean
+variables:
+    disable_switch: !input disable_switch
 trigger:
   - platform: state
     entity_id: !input occupancy_sensor
 
-condition: []
-
+condition: 
+- condition: template
+  value_template: >-
+      {{  disable_switch == none or
+      states(disable_switch) == 'on' }}
+      
 action:
   - choose:
     - conditions:
