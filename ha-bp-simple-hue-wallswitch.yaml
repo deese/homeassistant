@@ -65,6 +65,7 @@ trigger:
       - "right_press"
       - "right_hold"
       - "right_hold_release"
+      - "toggle"
 action:
   - choose:
     - conditions:
