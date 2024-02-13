@@ -70,7 +70,7 @@ action:
   - choose:
     - conditions:
       - condition: template
-        value_template: "{{ trigger.to_state.state == \"left_press\" }}"
+        value_template: "{{ trigger.to_state.state == \"left_press\" or trigger.to_state.state == \"toggle\" }}"
       sequence: !input press_left
     - conditions:
       - condition: template
