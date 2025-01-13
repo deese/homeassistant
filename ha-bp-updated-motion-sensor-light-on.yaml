@@ -141,10 +141,11 @@ variables:
   target_off_entity: !input target_off_entity
   sun_condition: !input sunstate_condition
 
-trigger:
-  platform: state
-  entity_id: !input motion_sensor
-  to: 'on'
+triggers:
+  - trigger: state
+    entity_id:
+      - binary_sensor.office_hue_motion_occupancy
+    to: "on"
 
 condition:
 
